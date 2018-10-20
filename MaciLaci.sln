@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaciLaci.UI", "MaciLaci.UI\MaciLaci.UI.csproj", "{3A264104-4A8F-4B74-AF54-F6CF23BE0BA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaciLaci.Backend", "MaciLaci.Backend\MaciLaci.Backend.csproj", "{66074FC1-B799-478A-9AA0-A8564B50FDC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A264104-4A8F-4B74-AF54-F6CF23BE0BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A264104-4A8F-4B74-AF54-F6CF23BE0BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A264104-4A8F-4B74-AF54-F6CF23BE0BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A264104-4A8F-4B74-AF54-F6CF23BE0BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66074FC1-B799-478A-9AA0-A8564B50FDC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66074FC1-B799-478A-9AA0-A8564B50FDC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66074FC1-B799-478A-9AA0-A8564B50FDC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66074FC1-B799-478A-9AA0-A8564B50FDC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFFF5C01-904D-448E-934E-0B86FDA5B68F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\bin\Debug\MaciLaci.UI.exe.config
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\bin\Debug\MaciLaci.UI.exe
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\bin\Debug\MaciLaci.UI.pdb
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.csprojAssemblyReference.cache
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MainWindow.g.cs
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\App.g.cs
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI_MarkupCompile.cache
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI_MarkupCompile.lref
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MainWindow.baml
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.g.resources
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.Properties.Resources.resources
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.csproj.GenerateResource.cache
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.csproj.CoreCompileInputs.cache
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.exe
+C:\Users\c\source\repos\MaciLaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.pdb
