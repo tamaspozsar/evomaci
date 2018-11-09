@@ -1,0 +1,6 @@
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\bin\Debug\MaciLaci.Backend.dll
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\bin\Debug\MaciLaci.Backend.pdb
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\obj\Debug\MaciLaci.Backend.csprojAssemblyReference.cache
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\obj\Debug\MaciLaci.Backend.csproj.CoreCompileInputs.cache
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\obj\Debug\MaciLaci.Backend.dll
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.Backend\obj\Debug\MaciLaci.Backend.pdb
