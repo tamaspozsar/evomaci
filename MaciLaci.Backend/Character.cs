@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MaciLaci.Backend
 {
-    class Character
+    abstract class Character
     {
+        public Coordinate coordinate = new Coordinate();
+        public abstract void Move();
     }
 }

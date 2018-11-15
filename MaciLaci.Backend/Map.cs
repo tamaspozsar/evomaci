@@ -23,7 +23,7 @@ namespace MaciLaci.Backend
 
         public Map(string mapNumber)
         {
-            MapPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Maps\Map" + mapNumber + ".txt");
+            MapPath = $@"Maps\Map{mapNumber}.txt";
             MapCells = new string[10, 10];
         }
         /*Reads the .txt file for the map layout by splitting each of line string in the .txt
@@ -56,12 +56,12 @@ namespace MaciLaci.Backend
             Random rand = new Random();
 
             StreamWriter writer = new StreamWriter(mapPath, false, Encoding.Default);
-            List<string> FieldObject = new List<String>();
-            FieldObject.Add("T");
-            FieldObject.Add("N");
-            FieldObject.Add("N");
+            List<string> fieldObject = new List<String>();
+            fieldObject.Add("T");
+            fieldObject.Add("N");
+            fieldObject.Add("N");
 
-            FieldObject.Add("H");
+            fieldObject.Add("B");
 
             int randomIndex;
             string randomObject;
@@ -74,9 +74,9 @@ namespace MaciLaci.Backend
                 for (int j = 0; j < numberOfLines; j++)
                 {
 
-                    randomIndex = rand.Next(FieldObject.Count);
+                    randomIndex = rand.Next(fieldObject.Count);
 
-                    randomObject = FieldObject[randomIndex] + ";";
+                    randomObject = fieldObject[randomIndex] + ";";
 
                     writer.Write(randomObject);
                 }

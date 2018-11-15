@@ -9,24 +9,17 @@ namespace MaciLaci.Backend
 {
     public class Basket : FieldObject
     {
-        readonly int pont = 10;
-        public Coordinate BasketCoordinate = new Coordinate();
+        readonly int point = 10;
 
-        public Basket(int x, int y)
+        public Basket(int x, int y) : base(x, y)
         {
-            this.objectPath = Path.Combine(base.objectPath, "basket.jpg");
-            BasketCoordinate.Row = x;
-            BasketCoordinate.Column = y;
+            Coordinate.Row = x;
+            Coordinate.Column = y;
         }
 
-        public int PontAdas()
+        public int Point()
         {
-            return pont;
-        }
-
-        override public string GetPath()
-        {
-            return this.objectPath;
+            return point;
         }
     }
 }

@@ -9,18 +9,11 @@ namespace MaciLaci.Backend
 {
     public class Barrier : FieldObject
     {
-        Coordinate BarrierCoordinate = new Coordinate();
 
-        public Barrier(int x, int y)
+        public Barrier(int x, int y) : base(x, y)
         {
-            this.objectPath = Path.Combine(base.objectPath, "tree.jpg");
-            BarrierCoordinate.Row = x;
-            BarrierCoordinate.Column = y;
-        }
-
-        override public string GetPath()
-        {
-            return this.objectPath;
+            Coordinate.Row = x;
+            Coordinate.Column = y;
         }
     }
 }

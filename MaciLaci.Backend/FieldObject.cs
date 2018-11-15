@@ -9,8 +9,12 @@ namespace MaciLaci.Backend
 {
     public abstract class FieldObject
     {
-        protected string objectPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Images\");
+        public Coordinate Coordinate = new Coordinate();
 
-        public abstract string GetPath();
+        public FieldObject(int x, int y)
+        {
+            Coordinate.Column = y;
+            Coordinate.Row = x;
+        }
     }
 }

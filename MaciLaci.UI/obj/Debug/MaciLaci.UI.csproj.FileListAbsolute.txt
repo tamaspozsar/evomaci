@@ -31,3 +31,5 @@ C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.csproj.Cor
 C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.csproj.CopyComplete
 C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.exe
 C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\obj\Debug\MaciLaci.UI.pdb
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\bin\Debug\Maps\Map1.txt
+C:\Users\gtaak\Source\Repos\evomaci\MaciLaci.UI\bin\Debug\MainWindow.xaml.cs
