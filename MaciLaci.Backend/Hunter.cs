@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MaciLaci.Backend
 {
-    class Hunter : Character
+    public class Hunter : Character
     {
-        public override void Move()
+        public Hunter(int x, int y) : base(x, y)
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaciLaci.Backend;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MaciLaci.Backend;
 
 namespace MaciLaci.UI
 {
@@ -23,17 +15,18 @@ namespace MaciLaci.UI
     public partial class MainWindow : Window
     {
         //Defining variables and initializing classes
-        Grid grid = new Grid();
-        Engine Core = new Engine();
-        string mapPath = @"Maps\Map1.txt";
-        string[,] ImageMatrix = new string[10, 10];
-        ColumnDefinition[] columns = new ColumnDefinition[10];
-        RowDefinition[] rows = new RowDefinition[10];
+        private Grid grid = new Grid();
+        private Engine Core = new Engine();
+        private string mapPath = @"Maps\Map1.txt";
+        private FieldObject[,] myImageMatrix = new FieldObject[10, 10];
+        private ColumnDefinition[] columns = new ColumnDefinition[10];
+        private RowDefinition[] rows = new RowDefinition[10];
 
 
         public MainWindow()
         {
             InitializeComponent();
+            Core.MapChanged += Core_MapChanged;
             grid.ShowGridLines = true;
             for (int i = 0; i < 10; i++)
             {
@@ -47,69 +40,147 @@ namespace MaciLaci.UI
             }
             Window.Content = grid;
             Core.LoadMap(mapPath);
-            Window.KeyDown += MapChanged;
-            Core.GetMapElements(ImageMatrix);
-            LoadMatrix(ImageMatrix);
+            Window.KeyDown += Window_KeyDown;
+            myImageMatrix = Core.GetMapElements();
+            LoadMatrix(myImageMatrix);
+        }
+
+        private void Core_MapChanged(object sender, MapChangedEventArgs e)
+        {
+            Dispatcher.Invoke(delegate
+            {
+                grid.Children.Clear();
+                LoadMatrix(e.CurrentMap);
+            });
         }
 
         //Loads the image matrix of the map
-        public void LoadMatrix(string[,] ImageMatrix)
+        public void LoadMatrix(FieldObject[,] imageMatrix)
         {
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    switch (ImageMatrix[i, j])
+                    if (imageMatrix[i, j] != null)
                     {
-                        case "T":
+                        if (imageMatrix[i, j] is Barrier)
+                        {
                             LoadTree(i, j);
-                            break;
-                        case "B":
+                        }
+                        else if (imageMatrix[i, j] is Basket)
+                        {
                             LoadBasket(i, j);
-                            break;
-                        case "N":
-                            break;
-                        default:
-                            break;
+                        }
+                        else if (imageMatrix[i, j] is Hunter)
+                        {
+                            LoadHunter(i, j);
+                        }
+                        else if (imageMatrix[i, j] is Bear bear)
+                        {
+                            LoadBear(i, j, bear.NumberOfCollectedBaskets, bear.Health);
+                        }
                     }
                 }
             }
-            LoadBear(Core.GetPlayerCoordinateX(), Core.GetPlayerCoordinateY());
         }
 
         //When a key press occurs this method is called, which then calls the Engine to move the player in accordance with the key being pressed
         // Left arrow goes left | Right arrow goes right | Up arrow goes up | Down arrow goes down
         //When this is done the method redraws the map
-        public void MapChanged(object sender, KeyEventArgs e)
+        public void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            Core.MovePlayer(e);
-            grid.Children.Clear();
-            LoadMatrix(ImageMatrix);
+            if (Enum.TryParse(e.Key.ToString(), out Direction direction))
+            {
+                Core.MovePlayer(direction);
+            }
         }
 
         //Generates an Image and an absolute path to the image, then sets in in the grid specified by the parameter coordinates
-        public void LoadBear(int x, int y)
+        public void LoadBear(int x, int y, int numberOfCollectedBaskets, int health)
         {
-            Image tree = new Image();
-            tree.Width = 60;
-            tree.Height = 60;
+            StackPanel stackPanel = new StackPanel
+            {
+                Orientation = Orientation.Vertical
+            };
+            Image image = new Image
+            {
+                Width = 60,
+                Height = 60
+            };
 
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            bi.UriSource = new Uri(@"Images\bear.jpg", UriKind.RelativeOrAbsolute);
-            bi.EndInit();
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri(@"Images\bear.jpg", UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
 
-            tree.Source = bi;
+            image.Source = bitmapImage;
 
-            Grid.SetColumn(tree, y);
-            Grid.SetRow(tree, x);
-            grid.Children.Add(tree);
+            StackPanel imageStackPanel = new StackPanel();
+            imageStackPanel.Orientation = Orientation.Horizontal;
+            imageStackPanel.Children.Add(image);
+
+            Grid basketGrid = new Grid();
+            for (int i = 0; i < 3; i++)
+            {
+                basketGrid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Rectangle r = new Rectangle { Width = 5, Height = 18, Margin = new Thickness(1) };
+                Grid.SetRow(r, i);
+
+                if (i < 3 - numberOfCollectedBaskets)
+                {
+                    r.Fill = Brushes.LightGreen;
+                }
+                else
+                {
+                    r.Fill = Brushes.DarkGreen;
+                }
+
+                basketGrid.Children.Add(r);
+            }
+
+            imageStackPanel.Children.Add(basketGrid);
+
+            Grid healthGrid = new Grid();
+            for (int i = 0; i < 3; i++)
+            {
+                healthGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Rectangle r = new Rectangle();
+                r.Width = 20;
+                r.Height = 6;
+                Grid.SetColumn(r, i);
+
+                if (i < health)
+                {
+                    r.Fill = Brushes.Green;
+                }
+                else
+                {
+                    r.Fill = Brushes.Red;
+                }
+
+                healthGrid.Children.Add(r);
+            }
+
+
+            stackPanel.Children.Add(imageStackPanel);
+            stackPanel.Children.Add(healthGrid);
+
+
+            Grid.SetColumn(stackPanel, y);
+            Grid.SetRow(stackPanel, x);
+            grid.Children.Add(stackPanel);
         }
         public void LoadTree(int x, int y)
         {
-            Image tree = new Image();
-            tree.Width = 60;
-            tree.Height = 60;
+            Image tree = new Image { Width = 60, Height = 60 };
 
             BitmapImage bi = new BitmapImage();
             bi.BeginInit();
@@ -123,6 +194,24 @@ namespace MaciLaci.UI
             grid.Children.Add(tree);
         }
         public void LoadBasket(int x, int y)
+        {
+            Image tree = new Image();
+            tree.Width = 60;
+            tree.Height = 60;
+
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri(@"Images\basket.jpg", UriKind.RelativeOrAbsolute);
+            bi.EndInit();
+
+            tree.Source = bi;
+
+            Grid.SetColumn(tree, y);
+            Grid.SetRow(tree, x);
+            grid.Children.Add(tree);
+        }
+
+        public void LoadHunter(int x, int y)
         {
             Image tree = new Image();
             tree.Width = 60;

@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MaciLaci.Backend
+﻿namespace MaciLaci.Backend
 {
-    class Bear : Character
+    public class Bear : Character
     {
-        int health = 3;
+        int health = 1;
 
-        public Bear(int x, int y)
+        public Bear(int x, int y): base(x,y)
         {
-            coordinate.Column = y;
-            coordinate.Row = x;
+            Health = health;
         }
 
-        override public void Move()
-        {
+        public int Health { get; internal set; }
 
-        }
+        public int NumberOfCollectedBaskets { get; set; }
+
     }
 }

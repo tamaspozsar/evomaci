@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,10 +12,15 @@ namespace MaciLaci.Backend
     {
         public Coordinate Coordinate = new Coordinate();
 
-        public FieldObject(int x, int y)
+        protected FieldObject(int x, int y)
         {
             Coordinate.Column = y;
             Coordinate.Row = x;
+        }
+
+        public virtual void Move(Coordinate coordinate)
+        {
+            Coordinate = coordinate;
         }
     }
 }

@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+using MyNamespace;
 
 namespace MaciLaci.Backend
 {
     public class Map
     {
-        const int numberOfLines = 10;
-        string[,] MapCells;
-        string[] WhatObjectIsHere = new string[10];
+        private const int numberOfLines = 10;
 
-        private string mapPath;
+        private readonly FieldObject[,] mypCells;
 
-        public string MapPath
-        {
-            get { return mapPath; }
-            set { mapPath = value; }
-        }
+        internal List<FieldObject> fieldObjects = new List<FieldObject>();
+
+        public int Width { get; private set; }
+
+        public int Height { get; private set; }
+
+        private string MapPath { get; set; }
 
         public Map(string mapNumber)
         {
             MapPath = $@"Maps\Map{mapNumber}.txt";
-            MapCells = new string[10, 10];
+            ReadMap(MapPath);
         }
         /*Reads the .txt file for the map layout by splitting each of line string in the .txt
         *the letters inside the .txt can be of 5 different types
@@ -35,20 +35,134 @@ namespace MaciLaci.Backend
         * and L for Laszlo the Bear
         * after each line is read the indentifier are copied into the MapCell matrix for map generation
         */
-        public void ReadMap(string filepath)
+        private void ReadMap(string filepath)
         {
-            string Line;
-            StreamReader File = new StreamReader(filepath);
-            for (int i = 0; i < numberOfLines; i++)
+            string[] rows = File.ReadAllLines(filepath);
+            Height = rows.Length;
+            string[] cell = null;
+            for (int i = 0; i < rows.Length; i++)
             {
-                Line = File.ReadLine();
-                for (int j = 0; j < numberOfLines; j++)
+                string row = rows[i];
+                cell =  row.Split(';');
+                for (int j = 0; j < cell.Length; j++)
                 {
-                    WhatObjectIsHere = Line.Split(';');
-                    MapCells[i, j] = WhatObjectIsHere[j];
+                    FieldObject character = null;
+                    switch (cell[j])
+                    {
+                        case "T":
+                        {
+                            character = new Barrier(i, j);
+                        }
+                            break;
+                        case "B":
+                        {
+                            character = new Basket(i, j);
+                        }
+                            break;
+                        case "H":
+                        {
+                            character = new Hunter(i, j);
+
+                        }
+                            break;
+                        case "L":
+                        {
+                            character = new Bear(i, j);
+
+                        }
+                            break;
+                        default:
+                        {
+                            character = new Empty(i, j);
+                        }
+                            break;
+                    }
+                    fieldObjects.Add(character);
                 }
+               
             }
-            File.Close();
+            Width = cell.Length;
+
+            /*
+            using (StreamReader File = new StreamReader(filepath))
+            {
+                for (int i = 0; i < numberOfLines; i++)
+                {
+                    string line = File.ReadLine();
+
+                    string[] splittedLine = line.Split(';');
+                    for (int j = 0; j < splittedLine.Length; j++)
+                    {
+                        FieldObject character = null;
+                        switch (splittedLine[j])
+                        {
+                            case "T":
+                                {
+                                    character = new Barrier(i, j);
+                                }
+                                break;
+                            case "B":
+                                {
+                                    character = new Basket(i, j);
+                                }
+                                break;
+                            case "H":
+                                {
+                                    character = new Hunter(i, j);
+
+                                }
+                                break;
+                            case "L":
+                                {
+                                    character = new Bear(i, j);
+
+                                }
+                                break;
+                            default:
+                                {
+                                    character = new Empty(i,j);
+                                }
+                                break;
+                        }
+                        fieldObjects.Add(character);
+                        //MapCells[i, j] = character;
+                    }
+                }
+
+                File.Close();
+            }*/
+        }
+
+        internal bool IsCoordinateOnMap(Coordinate coordinate)
+        {
+            return coordinate.Row >= 0 && coordinate.Row < Width && coordinate.Column >= 0 && coordinate.Column < Height;
+        }
+
+        internal bool IsFree(Coordinate target)
+        {
+            var obj = fieldObjects.FirstOrDefault(item => item.Coordinate == target);
+            return obj is Empty;
+        }
+
+        internal bool IsBasketOn(Coordinate coordinate)
+        {
+            var obj = fieldObjects.FirstOrDefault(item => item.Coordinate == coordinate);
+            return obj is Basket;
+        }
+
+        internal void RemoveBasket(Basket basket)
+        {
+            fieldObjects.Remove(basket);
+        }
+
+        internal void AddEmpty(Empty e)
+        {
+            fieldObjects.Add(e);
+        }
+
+        internal Bear GetBear()
+        {
+            return fieldObjects.FirstOrDefault(item => item is Bear) as Bear;
         }
 
         public void GenerateMap(string mapPath)
@@ -87,10 +201,79 @@ namespace MaciLaci.Backend
             writer.Close();
         }
 
-        public string GetMapCells(int x, int y)
+        public T GetMapCells<T>(int x, int y) where T : FieldObject
         {
-            return MapCells[x, y];
+            FieldObject obj = null;
+
+            foreach (var fieldObject in fieldObjects)
+            {
+                if (fieldObject is T variable)
+                {
+                    if (variable.Coordinate.Row == x && variable.Coordinate.Column == y)
+                    {
+                        obj = variable;
+                        break;
+                    }
+                }
+            }
+            return (T)obj;
+        }
+
+        public T GetMapCells<T>(Coordinate coordinate) where T : FieldObject
+        {
+            return GetMapCells<T>(coordinate.Row, coordinate.Column);
+        }
+
+        internal FieldObject[,] GetTwoDimension()
+        {
+            FieldObject[,] result = new FieldObject[10,10];
+            List<string>ss = new List<string>();
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Add("a");
+            ss.Dump();
+
+            fieldObjects.Dump();
+            foreach (FieldObject fieldObject in fieldObjects)
+            {
+                if (result[fieldObject.Coordinate.Row, fieldObject.Coordinate.Column] == null)
+                {
+                    result[fieldObject.Coordinate.Row, fieldObject.Coordinate.Column] = fieldObject;
+                }
+                else
+                {
+                    // just for debugging
+                    FieldObject ott = result[fieldObject.Coordinate.Row, fieldObject.Coordinate.Column];
+                    Console.WriteLine($"[{fieldObject.Coordinate.Column}:{fieldObject.Coordinate.Row}]:{fieldObject.GetType()} <> {ott.GetType()}");
+                }
+            }
+
+            return result;
+
         }
 
     }
+
+
+}
+
+namespace MyNamespace
+{
+    public static class ListExtensions
+    {
+        public static void Dump<T>(this List<T> fo)
+        {
+            foreach (var o in fo)
+            {
+                Console.WriteLine(o.ToString());
+            }
+        }
+    }
+
 }
